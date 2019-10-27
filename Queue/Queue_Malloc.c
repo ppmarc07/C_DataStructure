@@ -73,14 +73,7 @@ STATUS isFullQueue(queue *pQueue)
 //获取队列长度
 int getQueueLen(queue *pQueue)
 {
-	if (pQueue->front <= pQueue->rear)
-	{
-		return pQueue->rear - pQueue->front;
-	}
-	else
-	{
-		return pQueue->rear - pQueue->front + pQueue->maxSize;
-	}
+	return (pQueue->rear - pQueue->front + pQueue->maxSize) % pQueue->maxSize;
 }
 
 //新元素入队
