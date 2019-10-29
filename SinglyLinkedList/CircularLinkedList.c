@@ -27,8 +27,8 @@ CLListNode *Create_CLList(int arr[], int length)
 		rear->pNext = pNewNode;
 		rear = pNewNode;
 	}
-	pNewNode->pNext = head;//将尾结点的next域指向头结点，形成循环
-	return pNewNode;//返回尾结点指针
+	rear->pNext = head;//将尾结点的next域指向头结点，形成循环
+	return rear;//返回尾结点指针
 }
 
 //遍历输出
