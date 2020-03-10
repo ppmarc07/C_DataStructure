@@ -41,7 +41,7 @@ void Print_Result(SqList *L)
 
 /****************************************1、冒泡排序**************************************************/
 //冒泡排序算法1--初级冒泡排序
-void BubbleSort_1()
+void BubbleSort_1(void)
 {
 	int i, j;
 	SqList L = { { 9999, 9, 1, 5, 8, 3, 7, 2, 4, 6, 10 }, MAXSIZE };//首元素保留使用，不参与排序运算
@@ -61,7 +61,7 @@ void BubbleSort_1()
 }
 
 //冒泡排序算法2--正宗冒泡排序
-void BubbleSort_2()
+void BubbleSort_2(void)
 {
 	int i, j;
 	SqList L = { { 9999, 9, 1, 5, 8, 3, 7, 2, 4, 6, 10 }, MAXSIZE };//首元素保留使用，不参与排序运算
@@ -82,7 +82,7 @@ void BubbleSort_2()
 
 //冒泡排序算法2--冒泡优化
 //可避免在大部分元素已有序的情况下进行无意义的循环判断
-void BubbleSort_2_Improve()
+void BubbleSort_2_Improve(void)
 {
 	int i, j;
 	Status flag = TRUE;//添加标记处理
@@ -105,7 +105,7 @@ void BubbleSort_2_Improve()
 }
 
 /****************************************2、选择排序**************************************************/
-void SelectSort()
+void SelectSort(void)
 {
 	int i, j, min;
 	SqList L = { { 9999, 9, 1, 5, 8, 3, 7, 2, 4, 6, 10 }, MAXSIZE };//首元素保留使用，不参与排序运算
@@ -129,13 +129,43 @@ void SelectSort()
 	Print_Result(&L);//打印排序结果
 }
 
-/****************************************3、**************************************************/
+/****************************************3、直接插入排序**************************************************/
+void InsertSort(void)
+{
+	int i, j;
+	SqList L = { { 0, 5, 1, 4, 6, 2 }, 5 };//首元素作哨兵，不参与排序运算
+
+	for (i = 2; i <= L.length; i++)
+	{
+		if (L.r[i] < L.r[i - 1])
+		{
+			L.r[0] = L.r[i];
+			for (j = i - 1; L.r[j] > L.r[0]; j--)
+			{
+				L.r[j + 1] = L.r[j];
+			}
+			L.r[j + 1] = L.r[0];
+		}
+	}
+
+	Print_Result(&L);//打印排序结果
+}
+
+/****************************************4、希尔排序**************************************************/
+
+
+
 void test_Sort(void)
 {
+	//1、冒泡排序
 	//BubbleSort_1();
 	//BubbleSort_2();
 	//BubbleSort_2_Improve();
 
-	SelectSort();
+	//2、选择排序
+	//SelectSort();
+
+	//3、直接插入排序
+	InsertSort();
 }
 
