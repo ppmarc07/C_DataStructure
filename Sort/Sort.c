@@ -152,8 +152,34 @@ void InsertSort(void)
 }
 
 /****************************************4、希尔排序**************************************************/
+void ShellSort(void)
+{
+	int i, j;
+	SqList L = { { 0, 9, 1, 5, 8, 3, 7, 2, 4, 6, 10 }, MAXSIZE };//首元素作哨兵，不参与排序运算
+	int increment = L.length;
+	do
+	{
+		increment = increment / 3 + 1; //此处自定义增量序列
+		for (i = increment + 1; i < L.length; i++)
+		{
+			if (L.r[i] < L.r[i - increment])
+			{
+				L.r[0] = L.r[i];
+				for (j = i - increment; j > 0 && L.r[j] > L.r[0]; j -= increment)
+				{
+					L.r[j + increment] = L.r[j];
+				}
+				L.r[j + increment] = L.r[0];
+			}//此处实质为直接插入排序，只不过增量变为increment，而不是1
+		}
+		printf("对增量为 %d 的序列进行希尔排序\n", increment);
+		Print_Result(&L);//打印希尔排序中间过程结果
+	} while (increment > 1);//根据增量序列，进行多次直接插入排序
+	printf("最终希尔排序结果：\n");
+	Print_Result(&L);//打印最终排序结果
+}
 
-
+/****************************************5、**************************************************/
 
 void test_Sort(void)
 {
@@ -166,6 +192,9 @@ void test_Sort(void)
 	//SelectSort();
 
 	//3、直接插入排序
-	InsertSort();
+	//InsertSort();
+
+	//4、希尔排序
+	ShellSort();
 }
 
