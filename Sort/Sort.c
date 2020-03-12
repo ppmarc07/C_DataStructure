@@ -225,6 +225,62 @@ void HeapSort()
 	Print_Result(&L);//打印最终排序结果
 }
 
+/****************************************6、归并排序**************************************************/
+//最后一步，归并，排序
+void Merge(int SR[], int TR[], int left, int middle, int rightEnd)
+{
+	int j, k, l;
+	for (j = middle + 1, k = left; left <= middle && j <= rightEnd; k++)
+	{   
+		if (SR[left] < SR[j])
+		{
+			TR[k] = SR[left++];
+		}
+		else
+		{
+			TR[k] = SR[j++];
+		}
+	}
+	if (left <= middle)//右边先结束
+	{
+		for (l = 0; l <= (middle - left); l++)
+		{
+			TR[k + l] = SR[left + l];//剩下的元素直接保存到目标区域
+		}
+	}
+	if(j <= rightEnd)//左边先结束
+	{
+		for (l = 0; l <= (rightEnd - j); l++)
+		{
+			TR[k + l] = SR[j + l];
+		}
+	}
+}
+
+void MSort(int SR[], int TR1[], int left, int rightEnd)
+{
+	int middle;
+	int TR2[MAXSIZE + 1];
+	if (left == rightEnd)
+	{
+		TR1[left] = SR[rightEnd];
+	}
+	else
+	{
+		middle = (left + rightEnd) / 2;//取中间分界
+		MSort(SR, TR2, left, middle);//左边递归
+		MSort(SR, TR2, middle + 1, rightEnd);//右边递归
+		Merge(TR2, TR1, left, middle, rightEnd);//归并，排序
+	}
+}
+//归并排序算法实现
+void MergeSort(void)
+{
+	SqList L = { { 0, 9, 1, 5, 8, 3 }, 5 };//首元素保留，不参与排序
+	MSort(L.r, L.r, 1, L.length);//采用递归形式
+	Print_Result(&L);//打印最终排序结果
+}
+
 void test_Sort(void)
 {
 	//1、冒泡排序
@@ -242,6 +298,9 @@ void test_Sort(void)
 	//ShellSort();
 
 	//5、堆排序
-	HeapSort();
+	//HeapSort();
+
+	//6、归并排序
+	MergeSort();
 }
 
