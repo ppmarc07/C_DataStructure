@@ -273,11 +273,58 @@ void MSort(int SR[], int TR1[], int left, int rightEnd)
 		Merge(TR2, TR1, left, middle, rightEnd);//归并，排序
 	}
 }
+
 //归并排序算法实现
 void MergeSort(void)
 {
 	SqList L = { { 0, 9, 1, 5, 8, 3 }, 5 };//首元素保留，不参与排序
 	MSort(L.r, L.r, 1, L.length);//采用递归形式
+	Print_Result(&L);//打印最终排序结果
+}
+
+/****************************************7、快速排序**************************************************/
+/*
+	快速排序
+	（1）基本思想：通过一趟排序将待排序记录分割成独立的两部分，其中一部分记录的关键字均比另一部分记录的关键字小，
+	则可分别对这两部分记录继续进行排序，已达到整个序列有序的目的
+	（2）基本过程：a.选定pivot中心轴；b.将大于pivot的数字放在pivot右边，将小于pivot的数字放在pivot左边；
+	c.分别对左右子序列重复前两步操作。
+*/
+int Partition(SqList *L, int low, int high)
+{
+	int pivotkey;
+	pivotkey = L->r[low];//固定选取第1个元素为枢轴
+	while (low < high)
+	{
+		while (low < high && L->r[high] >= pivotkey)
+		{
+			high--;
+		}
+		Swap(L, low, high);
+		while (low < high && L->r[low] <= pivotkey)
+		{
+			low++;
+		}
+		Swap(L, low, high);
+	}
+}
+
+void QSort(SqList *L, int low, int high)
+{
+	int pivot;
+	if (low < high)
+	{
+		pivot = Partition(L, low, high);
+		QSort(L, low, pivot - 1);
+		QSort(L, pivot + 1, high);
+	}
+}
+
+//快速排序算法实现
+void QuickSort()
+{
+	SqList L = { { 0, 9, 1, 5, 8, 3, 8 }, 6 };//首元素保留，不参与排序
+	QSort(&L, 1, L.length);
 	Print_Result(&L);//打印最终排序结果
 }
 
@@ -301,6 +348,9 @@ void test_Sort(void)
 	//HeapSort();
 
 	//6、归并排序
-	MergeSort();
+	//MergeSort();
+
+	//7、快速排序
+	QuickSort();
 }
 
