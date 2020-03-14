@@ -320,11 +320,70 @@ void QSort(SqList *L, int low, int high)
 	}
 }
 
-//快速排序算法实现
+//快速排序算法实现1
 void QuickSort()
 {
 	SqList L = { { 0, 9, 1, 5, 8, 3, 8 }, 6 };//首元素保留，不参与排序
 	QSort(&L, 1, L.length);
+	Print_Result(&L);//打印最终排序结果
+}
+
+/****快速排序算法优化1****/
+int Partition_2(SqList *L, int low, int high)
+{
+	int pivotkey;
+	int mid = low + (high - low) / 2; // 即(low + high) / 2，但为了避免两个整数相加超出int范围，则转为等式low + (high - low) / 2
+	//优化一：对pivotkey值进行取值优化，三数取中(去掉大值和小值，取中间值为枢轴）
+	if (L->r[low] > L->r[high])
+	{
+		Swap(L, low, high);
+	}
+	if (L->r[mid] > L->r[high])
+	{
+		Swap(L, mid, high);
+	}
+	if (L->r[mid] > L->r[low])
+	{
+		Swap(L, mid, low);
+	}
+	/*此时L.r[low]已经为整个序列左右中三个关键字的中间值*/
+
+	pivotkey = L->r[low];
+	L->r[0] = pivotkey;//将枢轴值存到哨兵处
+	//优化二：优化不必要的交换
+	while (low < high)
+	{
+		while (low < high && L->r[high] >= pivotkey)
+		{
+			high--;
+		}
+		L->r[low] = L->r[high];//直接替换，因为首次遍历时的L->r[low]已经保存到哨兵处
+		while (low < high && L->r[low] <= pivotkey)
+		{
+			low++;
+		}
+		L->r[high] = L->r[low];//直接替换
+	}
+	L->r[low] = L->r[0];//最后的位置替换为哨兵元素即可
+	return low;//返回枢轴所在位置
+}
+
+void QSort_2(SqList *L, int low, int high)
+{
+	int pivot;
+	if (low < high)
+	{
+		pivot = Partition_2(L, low, high);
+		QSort(L, low, pivot - 1);
+		QSort(L, pivot + 1, high);
+	}
+}
+
+//快速排序算法实现2--优化1
+void QuickSort_2()
+{
+	SqList L = { { 0, 9, 1, 5, 8, 3, 8 }, 6 };//首元素保留，不参与排序
+	QSort_2(&L, 1, L.length);
 	Print_Result(&L);//打印最终排序结果
 }
 
@@ -351,6 +410,7 @@ void test_Sort(void)
 	//MergeSort();
 
 	//7、快速排序
-	QuickSort();
+	//QuickSort();
+	QuickSort_2();
 }
 
