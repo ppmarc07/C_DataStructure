@@ -374,8 +374,8 @@ void QSort_2(SqList *L, int low, int high)
 	if (low < high)
 	{
 		pivot = Partition_2(L, low, high);
-		QSort(L, low, pivot - 1);
-		QSort(L, pivot + 1, high);
+		QSort_2(L, low, pivot - 1);
+		QSort_2(L, pivot + 1, high);
 	}
 }
 //对上面QSort_2函数进行优化
@@ -387,7 +387,7 @@ void QSort_2_new(SqList *L, int low, int high)
 	{
 		while(low < high)
 		pivot = Partition_2(L, low, high);
-		QSort(L, low, pivot - 1);
+		QSort_2_new(L, low, pivot - 1);
 		low = pivot + 1;//优化一：尾递归优化，减少一次递归调用
 	}
 	else//优化二：小数据量转化为直接插入算法为佳
