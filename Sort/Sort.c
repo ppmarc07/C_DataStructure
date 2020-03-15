@@ -378,6 +378,23 @@ void QSort_2(SqList *L, int low, int high)
 		QSort(L, pivot + 1, high);
 	}
 }
+//对上面QSort_2函数进行优化
+#define MAX_LENGTH_INSERT_SORT	7
+void QSort_2_new(SqList *L, int low, int high)
+{
+	int pivot;
+	if ((high - low) > MAX_LENGTH_INSERT_SORT)
+	{
+		while(low < high)
+		pivot = Partition_2(L, low, high);
+		QSort(L, low, pivot - 1);
+		low = pivot + 1;//优化一：尾递归优化，减少一次递归调用
+	}
+	else//优化二：小数据量转化为直接插入算法为佳
+	{
+		//InsertSort(L); //此处需自行修改为带参数的直接插入算法
+	}
+}
 
 //快速排序算法实现2--优化1
 void QuickSort_2()
